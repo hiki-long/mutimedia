@@ -2,30 +2,32 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
 
 <AnchorPane fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<Button id="prev" text="上一首" prefWidth="60" prefHeight="40" onAction="#click">
+		<ImageView fx:id="cover" fitWidth="200" fitHeight="200" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="200" preserveRatio="true">
+		</ImageView>
+		<Button fx:id="prev" text="上一首" prefWidth="60" prefHeight="40" onAction="#Before">
 			<AnchorPane.leftAnchor>180</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>620</AnchorPane.topAnchor>
 		</Button>
-		<Button id="play" text="播放" prefWidth="60" prefHeight="40">
+		<Button fx:id="play" text="播放" prefWidth="60" prefHeight="40" onAction="#PlayMusic">
 			<AnchorPane.leftAnchor>260</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>620</AnchorPane.topAnchor>
 		</Button>
-		<Button id="pause" text="停止" prefWidth="60" prefHeight="40">
+		<Button fx:id="after" text="下一首" prefWidth="60" prefHeight="40" onAction="#Next">
 			<AnchorPane.leftAnchor>340</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>620</AnchorPane.topAnchor>
 		</Button>
-		<Button id="after" text="下一首" prefWidth="60" prefHeight="40">
-			<AnchorPane.leftAnchor>420</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>620</AnchorPane.topAnchor>
+		<Button fx:id="music_directory" text="选择目录" prefWidth="120" prefHeight="40" onAction="#choose_direc">
+			<AnchorPane.leftAnchor>1120</AnchorPane.leftAnchor>
+			<AnchorPane.topAnchor>20</AnchorPane.topAnchor>
 		</Button>
 		<Slider min="0.0" max="1.0" value="0.0" prefWidth="620">
 			<AnchorPane.leftAnchor>500</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>630</AnchorPane.topAnchor>
 		</Slider>
-		<Button></Button>
 	</children>
 </AnchorPane>
 
