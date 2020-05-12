@@ -142,7 +142,7 @@ public class MainController {
 		System.out.println(newFolder);
 		select_directory = newFolder.getPath();
 		try {
-			System.out.println("mp3文件读取");
+			System.out.println("文件读取");
 			rd = new ReadDir();
 			rd.createmusicList(select_directory, media_type);
 			for(Iterator<String> it = rd.get_MusicName().iterator(); it.hasNext();)
