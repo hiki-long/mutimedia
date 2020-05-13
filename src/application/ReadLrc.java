@@ -17,8 +17,7 @@ public class ReadLrc {
 
 //	public String lrc_path = "D:\\java\\workspace\\player\\src\\res\\肥皂菌 - 万神纪.lrc";
 	public String lrc_path;
-	private String[] base_info = new String[2];
-	private Image cover;
+	private String[] base_info = new String[2];//仅保留名字
 	private String filename;
 	private boolean haslrc;
 //	private List<Map<Long,String>> lyric;
@@ -123,14 +122,14 @@ public class ReadLrc {
 	
 	private long getLongTime(String min, String sec, String mill)
 	{
-		int m = Integer.parseInt(min);
-		int s = Integer.parseInt(sec);
-		int ms = Integer.parseInt(mill);
+		int m = Integer.parseInt(min);//分钟
+		int s = Integer.parseInt(sec);//秒数
+		int ms = Integer.parseInt(mill);//10ms数
 		if(s >= 60)
 		{
 			System.out.println("歌词不应该时长超过60分钟");
 		}
-		long time = m*60*1000 + s*1000 + ms;
+		long time = m*60*1000 + s*1000 + 10*ms;
 		return time;
 	}
 	

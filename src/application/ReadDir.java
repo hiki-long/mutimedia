@@ -25,7 +25,7 @@ public class ReadDir {
 		return music_name;
 	}
 	
-	public List<String> get_VedioName()
+	public List<String> get_VideoName()
 	{
 		return video_name;
 	}
@@ -100,5 +100,12 @@ public class ReadDir {
 					}
 			}
 		}
+	}
+	
+	public void getClear()
+	{//重新读取目录的初始化
+		fileList.clear();
+		music_name.clear();
+		video_name.clear();
 	}
 }
