@@ -40,8 +40,8 @@ public class ReadDir {
 		try {
 			m3u = path + "\\music.m3u";
 			File m3u_file = new File(m3u);
-			System.out.println(m3u_file.getPath());
-			System.out.println(m3u_file.exists());
+//			System.out.println(m3u_file.getPath());
+//			System.out.println(m3u_file.exists());
 			if(m3u_file.exists())//每次载入都重新刷新播放列表
 			{
 				m3u_file.delete();
@@ -62,7 +62,7 @@ public class ReadDir {
 //				System.out.println((String)it.next());
 //			}
 			br.close();
-			System.out.println("写入完毕");
+//			System.out.println("写入完毕");
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -86,6 +86,7 @@ public class ReadDir {
 							||tempFile[i].getName().endsWith(m_type[1])
 							||tempFile[i].getName().endsWith(m_type[2]))
 					{
+						//音频文件名去后缀
 						fileList.add(tempFile[i].getPath());
 						//这里将mp3等后缀去掉
 						String temp[] = tempFile[i].getName().split("\\.");
@@ -95,8 +96,10 @@ public class ReadDir {
 							||tempFile[i].getName().endsWith(v_type[1])
 							||tempFile[i].getName().endsWith(v_type[2]))
 					{
+						//视频文件名去后缀
 						fileList.add(tempFile[i].getPath());
-						video_name.add(tempFile[i].getName());
+						String temp[] = tempFile[i].getName().split("\\.");
+						video_name.add(temp[0]);
 					}
 			}
 		}
