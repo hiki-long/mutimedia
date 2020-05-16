@@ -76,8 +76,8 @@ public class ReadLrc {
 						
 						String min = matcher.group(1);//∑÷÷”
 						String sec = matcher.group(2);//√Î
-						String mill = matcher.group(3);//∫¡√Î
-						long time = getLongTime(min,sec,mill+"0");
+						String mill = matcher.group(3);//10∫¡√Î
+						long time = getLongTime(min,sec,mill);
 						String text = lineStr.substring(matcher.end());
 						lyric_map.put(time,text);
 					}				

@@ -1,6 +1,6 @@
 Àà¡ª¡ªReadDir
 ReadDirÖÐµÄÊµÀý»¯¶ÔÏóÎªdr
-dr¿ÉÒÔ»ñÈ¡µÄÐÅÏ¢
+dr¿ÉÒÔ»ñÈ¡µÄÐÅÏ¢ÈçÏÂ£º
 ListµÄ±éÀú×ÔÐÐÉÏÍø²éÕÒ
 dr.get_MusicName()¡ª¡ª»ñÈ¡ËùÓÐÒôÀÖÃû³ÆÁÐ±í£¬±ãÓÚÉèÖÃ±êÌâ,²»°üº¬.mp3ºó×º
 ÀýÈç£º¹ÚÊÀÒ»Õ½.mp3 ´¢´æÎª£º¹ÚÊÀÒ»Õ½
@@ -14,6 +14,8 @@ get_AllMedia´æ´¢µÄÊÇ¾ø¶ÔÂ·¾¶
 D:\Maplemusic\Bgm00.img.DragonDream.mp3
 D:\Maplemusic\Bgm03 Elfwood.mp3
 D:\Maplemusic\Bgm15.img.ElinForest.mp3
+
+rd.getClear()¡ª¡ªÇé¿öËùÓÐ´æ´¢Êý¾Ý£¬ÓÃÓÚµ¼ÈëÆäËûÎÄ¼þ¼ÐµÄÒôÆµÊ±Ê¹ÓÃ
 
 Àà¡ª¡ªReadLrc
 ReadLrcµÄÊµÀý»¯¶ÔÏóÎªÊý×éstore_lrc[]
@@ -48,3 +50,23 @@ UI½çÃæÇëÄ£·ÂQQÒôÀÖ¡¢ÍøÒ×ÔÆÒôÀÖµÈÒÑÓÐ½çÃæµÄÌØÐ§£¬ÎÒÃÇÔÝÊ±²»×öAlbumºÍ¸èÇúÀàÐÍµÄ¹¦Ä
 µ«ÊÇÒª¿¼ÂÇÀúÊ·²¥·Å¼ÇÂ¼ºÍ²¥·ÅÁÐ±íµÄ¹¦ÄÜºÍUI½çÃæÒª×ö³öÀ´
 ½ø¶ÈÌõÒªºÃ¿´Ò»µã£¬²»ÒªjavafxÔ­ÉúµÄ½ø¶ÈÌõ£¬ºÜÄÑ¿´
 °´Å¥µÄ±³¾°¾¡Á¿ÓÃÍ¼Æ¬Ìî³ä¶ø²»ÊÇÎÄ×Ö£¬·ÅÔÚÏîÄ¿µÄ/imgÎÄ¼þ¼Ð½øÐÐÒýÓÃ,¿ÉÒÔ²Î¿¼Ê¹ÓÃ·ÅÔÚµ±Ç°imgÄ¿Â¼µÄÍ¼Æ¬
+
+¸è´ÊÎÄ¼þÒªºÍÒôÆµ·ÅÔÚÍ¬Ò»ÎÄ¼þ¼Ð£¬·ñÔòÎÞ·¨Õý³£¶ÁÈ¡
+¸èÇú¸ñÊ½Í³Ò»Îª ¸èÇúÃû - ¸èÊÖ.mp3
+ÀýÈç£ºearthmind - Another Heaven.mp3
+¸è´Ê¸ñÊ½Í³Ò»Îª ¸èÇúÃû - ¸èÊÖ.lrc
+ÀýÈç£ºearthmind - Another Heaven.lrc
+
+ÏÂÔØÏÂÀ´µÄ¸è´ÊÒªÏÈ´ò¿ª£¬É¾³ýÀïÃæµÄ¿Õ°×¸è´ÊÐÐÒÔ¼°¸èÊÖºÍ¸èÇúÐÅÏ¢ÐÐ£¬Ö»ÁôÏÂ¸è´Ê
+[xx:xx.xx]ÑÝ³ª£ºxxx
+[xx:xx.xx]¸èÇú£ºxxx
+//É¾µôÉÏÃæ¼¸ÐÐ£¬±£Áô¸è´Ê
+[00:12.92]ºÎ¤ò±§¤­¾†¤á¤ë? ÓûÍû¤ÎÓ°¤Ç,½þÉíÓÚÓûÍûÖ®Ó°µÄÄãÔÚ½ô½ôÓµ±§×ÅÊ²Ã´ÄØ£¿
+[00:18.03]Í´¤ß¤Ë‰T¤ì¤¿ÀíÏë¤ò’Î¤Æ¤Æ,¶ªµôÁËÉËºÛÀÛÀÛµÄÀíÏë
+[xx:xx.xx]				//ÓÐÊ±ºòÖÐ¼ä¼Ð´øµÄ¿Õ°×¸è´ÊÐÐÒ²É¾µô
+[00:23.46]¤Þ¤ë¤Ç„eÊÀ½ç ¤½¤ì¤Ç¤âÕæŒg,·Â·ðÉí´¦ÁíÒ»¸öÊÀ½ç£¬ÕæÊµÓÖÐé»Ã
+
+store_lrc[index].getLyric().printLrc()¡ª¡ª´òÓ¡³ö¸è´Ê£¬·Ç°´Ë³ÐòÅÅÁÐ£¬¿ÉÒÔ²é¿´ÊÇ·ñÕýÈ·µ¼Èë¸è´Ê
+
+ÊÓÆµÏà¹ØÀà
+MediaView

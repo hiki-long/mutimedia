@@ -58,7 +58,7 @@ public class MainController {
 //		System.out.println("实例化测试");
 		String xx = System.getProperty("user.dir");
 		select_directory = xx + "\\bin\\res\\";
-		System.out.println(select_directory);
+//		System.out.println(select_directory);
 		choose_direc(select_directory);
 		
 	}
@@ -76,6 +76,7 @@ public class MainController {
 				while((line = bf.readLine())!=null)
 				{
 //					System.out.println(line);
+					//这里只做了音频处理
 					if(line.endsWith("mp3") || line.endsWith("wmv") || line.endsWith("flac")) {
 						File temp_file = new File(line);
 						String url = temp_file.toURI().toURL().toExternalForm();
@@ -84,6 +85,11 @@ public class MainController {
 						mp3_list.add(media);
 //						System.out.println(media);
 					}
+					if(line.endsWith("mp4") || line.endsWith("avi") || line.endsWith("mkv")) {
+					//这里由做视频处理的人自行处理
+					
+					}
+					
 				}
 //				System.out.println(mp3_list.get(0));
 				mp = new MediaPlayer(mp3_list.get(index));
@@ -94,7 +100,7 @@ public class MainController {
 					bf.close();
 				}
 				else {
-					hasmusic = true;
+					hasmusic = false;
 					System.out.println("当前目录无符合要求的文件");
 				}
 			} catch (Exception e) {
@@ -113,32 +119,32 @@ public class MainController {
 			System.out.println(path);
 			rd = new ReadDir();
 			rd.createmusicList(select_directory, media_type);
-			for(Iterator<String> it = rd.get_MusicName().iterator(); it.hasNext();)
-			{
-				System.out.println(it.next());
-			}
-			for(Iterator<String> it = rd.get_VideoName().iterator(); it.hasNext();)
-			{
-				System.out.println(it.next());
-			}
+//			for(Iterator<String> it = rd.get_MusicName().iterator(); it.hasNext();)
+//			{
+//				System.out.println(it.next());
+//			}
+//			for(Iterator<String> it = rd.get_VideoName().iterator(); it.hasNext();)
+//			{
+//				System.out.println(it.next());
+//			}
 			store_lrc = new ReadLrc[rd.get_MusicName().size()];
 			for(int num = 0; num < rd.get_MusicName().size(); num++)
 			{	
 				String tp = select_directory + "\\" + rd.get_MusicName().get(num) + ".lrc";
-				System.out.println(tp);
+//				System.out.println(tp);
 				store_lrc[num] = new ReadLrc(tp);
 			}
-			int q=0,w=0;
-			for(int num = 0; num < rd.get_MusicName().size(); num++)
-			{
-				System.out.println(store_lrc[num].getMusicName());
-				if(store_lrc[num].getMusicName().equals("无题"))
-				{
-					q++;
-				}
-				else w++;
-			}
-			System.out.println("有歌词"+ w +"首, 无歌词" + q +"首");
+//			int q=0,w=0;
+//			for(int num = 0; num < rd.get_MusicName().size(); num++)
+//			{
+//				System.out.println(store_lrc[num].getMusicName());
+//				if(store_lrc[num].getMusicName().equals("无题"))
+//				{
+//					q++;
+//				}
+//				else w++;
+//			}
+//			System.out.println("有歌词"+ w +"首, 无歌词" + q +"首");
 			read_m3ulist(mode, select_directory + "\\music.m3u");
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -167,7 +173,7 @@ public class MainController {
 //		System.out.println(newFolder);
 		select_directory = newFolder.getPath();
 		try {
-			System.out.println("文件读取");
+//			System.out.println("文件读取");
 			rd = new ReadDir();
 			rd.createmusicList(select_directory, media_type);
 //			for(Iterator<String> it = rd.get_MusicName().iterator(); it.hasNext();)
@@ -182,20 +188,20 @@ public class MainController {
 			for(int num = 0; num < rd.get_MusicName().size(); num++)
 			{	
 				String tp = select_directory + "\\" + rd.get_MusicName().get(num) + ".lrc";
-				System.out.println(tp);
+//				System.out.println(tp);
 				store_lrc[num] = new ReadLrc(tp);
 			}
-			int q=0,w=0;
-			for(int num = 0; num < rd.get_MusicName().size(); num++)
-			{
-				System.out.println(store_lrc[num].getMusicName());
-				if(store_lrc[num].getMusicName().equals("无题"))
-				{
-					q++;
-				}
-				else w++;
-			}
-			System.out.println("有歌词"+ w +"首, 无歌词" + q +"首");
+//			int q=0,w=0;
+//			for(int num = 0; num < rd.get_MusicName().size(); num++)
+//			{
+//				System.out.println(store_lrc[num].getMusicName());
+//				if(store_lrc[num].getMusicName().equals("无题"))
+//				{
+//					q++;
+//				}
+//				else w++;
+//			}
+//			System.out.println("有歌词"+ w +"首, 无歌词" + q +"首");
 			read_m3ulist(mode, select_directory + "\\music.m3u");
 
 		}catch (Exception e) {
@@ -244,6 +250,8 @@ public class MainController {
 			if(!isplay) {
 				mp.play();
 				isplay = true;
+				System.out.println("这里是歌词导入测试");
+				store_lrc[index].printLrc(getLyric());
 			}
 			else {
 				mp.pause();
