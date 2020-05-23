@@ -23,6 +23,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
+import javafx.scene.media.MediaMarkerEvent;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -93,6 +94,7 @@ public class MainController {
 						String url = temp_file.toURI().toURL().toExternalForm();
 //						System.out.println(url);
 						Media media = new Media(url);
+
 						mp3_list.add(media);
 //						System.out.println(media);
 					}
@@ -101,6 +103,15 @@ public class MainController {
 					
 					}
 					
+				}
+				for(int mus_num = 0; mus_num < store_lrc.length; mus_num++) {
+					Map<Long,String> lyr = store_lrc[mus_num].getLyric();
+					if(lyr != null) {
+						for(long t : lyr.keySet()) {//给当前歌词打上标记
+							mp3_list.get(mus_num).getMarkers().put(lyr.get(t),Duration.millis(t) );
+						}
+					}
+					else System.out.println("当前为纯音乐");
 				}
 //				System.out.println(mp3_list.get(0));
 				mp = new MediaPlayer(mp3_list.get(index));
@@ -277,6 +288,7 @@ public class MainController {
 			//音乐准备状态显示封面
 			@Override
 			public void run() {
+
 				ObservableMap<String,Object> obmap = mp3_list.get(index).getMetadata();
 				System.out.println("图片：" + (Image)obmap.get("image"));
 				cover.setImage((Image)obmap.get("image"));
@@ -285,6 +297,7 @@ public class MainController {
 				progress.setMin(0);
 				progress.setMax(player.getTotalDuration().toSeconds());
 				
+
 			}
 		});
 		
@@ -304,6 +317,7 @@ public class MainController {
 					}
 					
 				});
+				
 			}
 		});
 		
@@ -325,6 +339,16 @@ public class MainController {
 				mp.play();
 			}
 		});
+		
+		player.setOnMarker(new EventHandler<MediaMarkerEvent>() {
+			//取出歌词
+			@Override
+			public void handle(MediaMarkerEvent event)
+			{
+				System.out.println(event.getMarker().getKey());
+			}
+		});
+		
 		//进度条可拖动功能
 		progress.setOnMousePressed(e->{
 			mouse_press = true;
