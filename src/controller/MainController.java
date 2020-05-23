@@ -1,13 +1,17 @@
 package controller;
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.*;
 
 import javax.net.ssl.TrustManagerFactory;
 
+
 import application.ReadDir;
 import application.ReadLrc;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableMap;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,10 +19,14 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class MainController {
 
@@ -30,9 +38,10 @@ public class MainController {
 	public static ReadDir rd;//读取文件夹的类的实例化对象
 	public static ReadLrc[] store_lrc;//每个音乐文件的歌词存储,这个类存着音频名和视频名以及台词
 	public MediaPlayer mp;//播放器控件
-	private int index = 0;//当前列表音乐播放的index,从0-音乐数量-1
+	private int index = 0;//当前列表音乐播放的index,从[0-music_number-1]
 	public boolean isplay = false;//是否正在播放的布尔值
 	public boolean hasmusic = false;
+	private boolean mouse_press = false;
 	
 	@FXML
 	private Button music_directory;//这个是界面中选择文件夹的按钮
@@ -46,7 +55,10 @@ public class MainController {
 	private Button play;
 	@FXML
 	private AnchorPane whole;
-	
+	@FXML
+	private Slider progress;
+	@FXML
+	private Slider volume;
 	
 	public MainController()
 	{
@@ -60,7 +72,6 @@ public class MainController {
 		select_directory = xx + "\\bin\\res\\";
 //		System.out.println(select_directory);
 		choose_direc(select_directory);
-		
 	}
 	
 	
@@ -263,17 +274,78 @@ public class MainController {
 	public void setCover(MediaPlayer player)
 	{
 		player.setOnReady(new Runnable() {
-			
+			//音乐准备状态显示封面
 			@Override
 			public void run() {
 				ObservableMap<String,Object> obmap = mp3_list.get(index).getMetadata();
 				System.out.println("图片：" + (Image)obmap.get("image"));
 				cover.setImage((Image)obmap.get("image"));
+				player.volumeProperty().bind(volume.valueProperty());
+				progress.setValue(0);
+				progress.setMin(0);
+				progress.setMax(player.getTotalDuration().toSeconds());
+				
 			}
+		});
+		
+		
+		player.setOnPlaying(new Runnable() {
+			//音乐播放过程中自动移动进度条
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				player.currentTimeProperty().addListener(new ChangeListener<Duration>(){
+
+					@Override
+					public void changed(ObservableValue<? extends Duration> observable, Duration oldValue,
+							Duration newValue) {
+						if(!mouse_press)
+						progress.setValue(mp.getCurrentTime().toSeconds());
+					}
+					
+				});
+			}
+		});
+		
+		player.setOnEndOfMedia(new Runnable() {
+			//音乐播放完自动播放下一首
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if(index < mp3_list.size()-1)
+				{
+					index++;
+				}
+				else {
+					index = 0;
+				}
+				mp.dispose();
+				mp = new MediaPlayer(mp3_list.get(index));
+				setCover(mp);
+				mp.play();
+			}
+		});
+		//进度条可拖动功能
+		progress.setOnMousePressed(e->{
+			mouse_press = true;
+		});
+		progress.setOnMouseReleased(e->{						
+			mp.seek(Duration.seconds(progress.getValue()));
+			mouse_press = false;
 		});
 	}
 	
-	
+	public void getMusicBar()//获取音乐频谱参数
+	{
+//		mp.setAudioSpectrumListener(new AudioSpectrumListener() {
+//			
+//			@Override
+//			public void spectrumDataUpdate(double timestamp, double duration, float[] magnitudes, float[] phases) {
+//				// timestamp当前音乐时间， duration多久监听一次，magnitude频谱数据，数组长度0-128，范围在-60-0
+//				
+//			}
+//		});
+	}
 
 	public Map<Long,String> getLyric()//获取当前音乐歌词
 	{
@@ -290,4 +362,17 @@ public class MainController {
 		return store_lrc[index].getSingerName();
 	}
 	
+	/*这里是载入图片的函数暂时不做处理的代码*/
+//	String img = xx + "\\bin\\img\\Logo.png";
+//	System.out.println(img);
+//	String img = "D:\\java\\workspace\\player\\bin\\img\\artistsIcon.png";
+//	File tp = new File(img);
+//	System.out.println(tp.exists());
+//	try {
+//		prev.setStyle(new String("-fx-background-image:url('" + tp.toURI().toURL() + "');")
+//				+ "-fx-background-size:stretch stretch;");
+//	} catch (MalformedURLException e) {
+//		// TODO Auto-generated catch block
+//		e.printStackTrace();
+//	}
 }

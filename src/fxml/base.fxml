@@ -24,8 +24,12 @@
 			<AnchorPane.leftAnchor>1120</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>20</AnchorPane.topAnchor>
 		</Button>
-		<Slider min="0.0" max="1.0" value="0.0" prefWidth="620">
+		<Slider fx:id="progress" prefWidth="620">
 			<AnchorPane.leftAnchor>500</AnchorPane.leftAnchor>
+			<AnchorPane.topAnchor>630</AnchorPane.topAnchor>
+		</Slider>
+		<Slider fx:id="volume" min="0.0" max="1.0" value="0.4" prefWidth="100">
+			<AnchorPane.leftAnchor>1150</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>630</AnchorPane.topAnchor>
 		</Slider>
 	</children>
