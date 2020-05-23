@@ -12,16 +12,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.scene.image.Image;
+import jdk.jfr.Unsigned;
 
 public class ReadLrc {
 
 //	public String lrc_path = "D:\\java\\workspace\\player\\src\\res\\肥皂菌 - 万神纪.lrc";
-	public String lrc_path;
+	public String lrc_path;//歌曲所在路径
 	private String[] base_info = new String[2];//仅保留名字
-	private String filename;
-	private boolean haslrc;
+	private String filename;//目前播放的歌名
+	private int played_time;//播放次数
+	private boolean haslrc;//是否有歌词
 //	private List<Map<Long,String>> lyric;
-	Map<Long,String> lyric_map = new HashMap<Long,String>();
+	Map<Long,String> lyric_map = new HashMap<Long,String>();//歌词存储哈希表
 	
 	public ReadLrc()
 	{
@@ -39,9 +41,8 @@ public class ReadLrc {
 		filename = lrc_path.substring(index+1);
 		else filename = "";
 		lyric_map = this.parse(lrc_path);
-//		List<Map<Long,String>> tp_list = this.parse(lrc_path);
-//		this.printLrc(tp_list);
 		base_info = this.get_info();
+		played_time = 0;
 	}
 	
 	
@@ -64,16 +65,7 @@ public class ReadLrc {
 				while((lineStr = bufferedReader.readLine())!= null)
 				{
 					Matcher matcher = pattern.matcher(lineStr);
-					while(matcher.find()) {
-//						Map<Long,String> map = new HashMap<Long,String>();
-//						String min = matcher.group(1);//分钟
-//						String sec = matcher.group(2);//秒
-//						String mill = matcher.group(3);//毫秒
-//						long time = getLongTime(min,sec,mill+"0");
-//						String text = lineStr.substring(matcher.end());
-//						map.put(time,text);
-//						list.add(map);
-						
+					while(matcher.find()) {						
 						String min = matcher.group(1);//分钟
 						String sec = matcher.group(2);//秒
 						String mill = matcher.group(3);//10毫秒
@@ -94,7 +86,6 @@ public class ReadLrc {
 				return null;
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			e.printStackTrace();
 		}
 		return null;
@@ -118,6 +109,16 @@ public class ReadLrc {
 	public Map<Long,String> getLyric()//返回歌词
 	{
 		return this.lyric_map;
+	}
+	
+	public int get_playtime()//获取播放次数
+	{
+		return this.played_time;
+	}
+	
+	public void set_playtime(int time)
+	{
+		this.played_time = time;
 	}
 	
 	private long getLongTime(String min, String sec, String mill)
@@ -156,6 +157,7 @@ public class ReadLrc {
 //			System.out.println(map.get((long)81070));
 		}
 	}
+	
 	
 	public String[] get_info()//获取音乐基本信息，演唱者和音乐标题
 	{

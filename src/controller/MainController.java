@@ -35,14 +35,15 @@ public class MainController {
 	public static List<Media> mp3_list = new ArrayList<Media>();//记录当前mp3播放列表
 	private boolean mode = false;//读取音乐为0，读取视频为1
 	private static String media_type[]= {"mp3","wmv","flac","mp4","avi","mkv" };//读取的文件格式
-	public String select_directory;
+	public String select_directory;//选择的文件夹目录
 	public static ReadDir rd;//读取文件夹的类的实例化对象
 	public static ReadLrc[] store_lrc;//每个音乐文件的歌词存储,这个类存着音频名和视频名以及台词
 	public MediaPlayer mp;//播放器控件
 	private int index = 0;//当前列表音乐播放的index,从[0-music_number-1]
 	public boolean isplay = false;//是否正在播放的布尔值
-	public boolean hasmusic = false;
-	private boolean mouse_press = false;
+	public boolean hasmusic = false;//是否文件夹下有音乐
+	private boolean flush = false;//刷新计算是否播放了一次
+	private boolean mouse_press = false;//鼠标是否按下
 	
 	@FXML
 	private Button music_directory;//这个是界面中选择文件夹的按钮
@@ -242,6 +243,14 @@ public class MainController {
 			else {
 				index = 0;
 			}
+			
+			flush = false;			
+			if(!flush)
+			{
+				flush = true;
+				store_lrc[index].set_playtime(store_lrc[index].get_playtime()+1);
+			}
+			
 			mp.dispose();
 			mp = new MediaPlayer(mp3_list.get(index));
 			setCover(mp);
@@ -252,6 +261,7 @@ public class MainController {
 	public void Before()//上一首
 	{
 		if(hasmusic) {
+			
 			if(index == 0)
 			{
 				index = mp3_list.size()-1;
@@ -259,6 +269,14 @@ public class MainController {
 			else {
 				index--;
 			}
+			
+			flush = false;
+			if(!flush)
+			{
+				flush = true;
+				store_lrc[index].set_playtime(store_lrc[index].get_playtime()+1);
+			}
+			
 			mp.dispose();
 			mp = new MediaPlayer(mp3_list.get(index));
 			setCover(mp);
@@ -268,7 +286,14 @@ public class MainController {
 	
 	public void PlayMusic()//播放按钮
 	{
+		
 		if(hasmusic) {
+			if(!flush)
+			{
+				flush = true;
+				store_lrc[index].set_playtime(store_lrc[index].get_playtime()+1);
+			}
+
 			if(!isplay) {
 				mp.play();
 				isplay = true;
@@ -332,6 +357,12 @@ public class MainController {
 				}
 				else {
 					index = 0;
+				}
+				flush = false;			
+				if(!flush)
+				{
+					flush = true;
+					store_lrc[index].set_playtime(store_lrc[index].get_playtime()+1);
 				}
 				mp.dispose();
 				mp = new MediaPlayer(mp3_list.get(index));
