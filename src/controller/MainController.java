@@ -96,8 +96,6 @@ public class MainController {
 //		System.out.println(select_directory);
 		choose_direc(select_directory);
 		load_image(bk, "\\bin\\img\\timg.jpg",0.7);//三个参数为加载图片的控件，图片路径，透明度(0-1.0)
-//		whole.setOpacity(0.3);
-		
 	}
 	
 	
