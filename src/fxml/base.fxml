@@ -3,9 +3,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
-
+<?import javafx.scene.layout.*?>
 <AnchorPane fx:id="whole" fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
+		<VBox fx:id="bk" prefWidth="1280" prefHeight="720">
+		</VBox>
 		<ImageView fx:id="cover" fitWidth="200" fitHeight="200" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="200" preserveRatio="true">
 		</ImageView>
 		<Button fx:id="prev" text="上一首" prefWidth="60" prefHeight="40" onAction="#Before">
@@ -32,6 +34,10 @@
 			<AnchorPane.leftAnchor>1150</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>630</AnchorPane.topAnchor>
 		</Slider>
+		<VBox fx:id="words" prefWidth="660" prefHeight="320" style="-fx-background-color:rgba(0,0,0,0.2);">
+			<AnchorPane.leftAnchor>550</AnchorPane.leftAnchor>
+			<AnchorPane.topAnchor>180</AnchorPane.topAnchor>
+		</VBox>
 	</children>
 </AnchorPane>
 

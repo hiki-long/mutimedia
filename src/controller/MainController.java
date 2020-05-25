@@ -1,4 +1,11 @@
 package controller;
+import java.awt.Paint;
+import java.awt.PaintContext;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.ColorModel;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,16 +22,24 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableMap;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.AudioSpectrumListener;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaMarkerEvent;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -44,7 +59,8 @@ public class MainController {
 	public boolean hasmusic = false;//是否文件夹下有音乐
 	private boolean flush = false;//刷新计算是否播放了一次
 	private boolean mouse_press = false;//鼠标是否按下
-	
+	private Text test_text;
+	private List<String> now_music_lyric = new ArrayList<String>();//当前歌词的顺序列表
 	@FXML
 	private Button music_directory;//这个是界面中选择文件夹的按钮
 	@FXML
@@ -61,6 +77,10 @@ public class MainController {
 	private Slider progress;
 	@FXML
 	private Slider volume;
+	@FXML
+	private VBox words;
+	@FXML
+	private VBox bk;
 	
 	public MainController()
 	{
@@ -71,13 +91,29 @@ public class MainController {
 	{
 //		System.out.println("实例化测试");
 		String xx = System.getProperty("user.dir");
+		System.out.println( System.getProperty("user.dir"));
 		select_directory = xx + "\\bin\\res\\";
 //		System.out.println(select_directory);
 		choose_direc(select_directory);
+		load_image(bk, "\\bin\\img\\timg.jpg",0.7);//三个参数为加载图片的控件，图片路径，透明度(0-1.0)
+//		whole.setOpacity(0.3);
+		
 	}
 	
 	
-	
+	public void load_image(Node node,String related_path,double opacity)
+	{
+		String img = System.getProperty("user.dir") + related_path;
+		File tp = new File(img);
+		System.out.println(tp.exists());
+		try {
+		   node.setStyle(new String("-fx-background-image:url('" + tp.toURI().toURL() + "');")
+		     + "-fx-background-size:stretch stretch;" + "-fx-opacity:"+opacity+";");
+		} catch (MalformedURLException e) {
+		   // TODO Auto-generated catch block
+		   e.printStackTrace();
+		}
+	}
 	
 	public void read_m3ulist(boolean mode, String path)//读取文件夹生成的mp3文件的播放列表
 	{
@@ -236,6 +272,7 @@ public class MainController {
 	{
 		System.out.println(index);
 		if(hasmusic) {
+			words.getChildren().clear();
 			if(index < mp3_list.size()-1)
 			{
 				index++;
@@ -261,7 +298,7 @@ public class MainController {
 	public void Before()//上一首
 	{
 		if(hasmusic) {
-			
+			words.getChildren().clear();
 			if(index == 0)
 			{
 				index = mp3_list.size()-1;
@@ -309,6 +346,7 @@ public class MainController {
 	
 	public void setCover(MediaPlayer player)
 	{
+		now_music_lyric = this.getorderLyric();
 		player.setOnReady(new Runnable() {
 			//音乐准备状态显示封面
 			@Override
@@ -321,6 +359,11 @@ public class MainController {
 				progress.setValue(0);
 				progress.setMin(0);
 				progress.setMax(player.getTotalDuration().toSeconds());
+				if(ispure())
+				{
+					words.getChildren().clear();
+					getCurrentText("当前音乐为纯音乐");
+				}
 				
 
 			}
@@ -351,6 +394,7 @@ public class MainController {
 			@Override
 			public void run() {
 				// TODO Auto-generated method stub
+				words.getChildren().clear();
 				if(index < mp3_list.size()-1)
 				{
 					index++;
@@ -376,7 +420,41 @@ public class MainController {
 			@Override
 			public void handle(MediaMarkerEvent event)
 			{
-				System.out.println(event.getMarker().getKey());
+				words.getChildren().clear();
+				if(!ispure()) {					
+	//				System.out.println(event.getMarker().getKey());
+					String row = event.getMarker().getKey();
+					test_text = new Text(event.getMarker().getKey());
+					int size = now_music_lyric.size();
+					int current_index = now_music_lyric.indexOf(event.getMarker().getKey());
+					for (int i = 0; i < 11; i++)
+					{
+						if (current_index - 5 + i < 0) {
+							//太靠前
+							continue;
+						}
+						// 超过最后的了
+						if (current_index - 5 + i >= size) {
+							break;
+						}
+						
+						String tmp_String = now_music_lyric.get(current_index-5+i);
+						
+						if (i < 5) { // 前几句
+							getOtherText(tmp_String,i);
+						} else if (i == 5) { // 当前歌词
+							getCurrentText(event.getMarker().getKey());
+						} else { // 后几句
+							getOtherText(tmp_String,10-i);
+						}
+						
+					}
+				}
+				else {
+					getCurrentText("当前音乐为纯音乐");
+				}
+
+//				words.getChildren().add(test_text);
 			}
 		});
 		
@@ -388,6 +466,35 @@ public class MainController {
 			mp.seek(Duration.seconds(progress.getValue()));
 			mouse_press = false;
 		});
+	}
+	
+	private void getCurrentText(String lrc) {
+		HBox box = new HBox();
+		box.setPrefWidth(660);
+		box.setAlignment(Pos.CENTER);
+		box.setPadding(new Insets(8, 0, 8, 0));
+		Text text = new Text(lrc);
+		text.setFont(Font.font("Arial", 20));
+		text.setFill(Color.ORANGERED);
+		text.setStrokeWidth(0.4);
+		text.setStroke(Color.ORANGE);
+		box.getChildren().add(text);
+		words.getChildren().add(box);
+	}
+	
+	private void getOtherText(String lrc, int num) {
+		HBox box = new HBox();
+		box.setPrefWidth(660);
+		box.setAlignment(Pos.CENTER);
+		box.setPadding(new Insets((num+1)*1.2, 0, (num+1)*1.2, 0));
+		Text text = new Text(lrc);
+		text.setFont(Font.font("Arial", 14+num));
+		text.setOpacity(0.5 + 0.05* (num + 1));
+		text.setFill(Color.ORANGERED);
+		text.setStrokeWidth(0.2+0.04*num);
+		text.setStroke(Color.ORANGE);
+		box.getChildren().add(text);
+		words.getChildren().add(box);
 	}
 	
 	public void getMusicBar()//获取音乐频谱参数
@@ -417,17 +524,14 @@ public class MainController {
 		return store_lrc[index].getSingerName();
 	}
 	
-	/*这里是载入图片的函数暂时不做处理的代码*/
-//	String img = xx + "\\bin\\img\\Logo.png";
-//	System.out.println(img);
-//	String img = "D:\\java\\workspace\\player\\bin\\img\\artistsIcon.png";
-//	File tp = new File(img);
-//	System.out.println(tp.exists());
-//	try {
-//		prev.setStyle(new String("-fx-background-image:url('" + tp.toURI().toURL() + "');")
-//				+ "-fx-background-size:stretch stretch;");
-//	} catch (MalformedURLException e) {
-//		// TODO Auto-generated catch block
-//		e.printStackTrace();
-//	}
+	public List<String> getorderLyric()
+	{
+		return store_lrc[index].getorderLyric();
+	}
+	
+	public boolean ispure()
+	{
+		return store_lrc[index].isPureMusic();
+	}
+	
 }

@@ -70,3 +70,22 @@ store_lrc[index].getLyric().printLrc()——打印出歌词，非按顺序排列，可以查看是否
 
 视频相关类
 MediaView
+
+mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+			Platform.runLater(new Runnable() {
+				public void run() {
+					if (musicList.isEmpty()) {
+						return;
+					}
+
+					// 展示歌词
+					manager.getLyricInfo().loadLyric(model, newValue.toSeconds());
+
+					funcBottom.getTimeLabel().setText(
+							FFPlayerUtils.formatTime(newValue) + "/" + FFPlayerUtils.formatTime(model.getTotleTime()));
+					if (!funcBottom.getTimeSlider().isDisabled() && !funcBottom.getTimeSlider().isValueChanging()) {
+						funcBottom.getTimeSlider().setValue(newValue.toSeconds());
+					}
+				}
+
+			});

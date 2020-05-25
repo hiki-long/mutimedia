@@ -23,6 +23,7 @@ public class ReadLrc {
 	private int played_time;//播放次数
 	private boolean haslrc;//是否有歌词
 //	private List<Map<Long,String>> lyric;
+	List<String> order_lyric = new ArrayList<String>();
 	Map<Long,String> lyric_map = new HashMap<Long,String>();//歌词存储哈希表
 	
 	public ReadLrc()
@@ -71,6 +72,7 @@ public class ReadLrc {
 						String mill = matcher.group(3);//10毫秒
 						long time = getLongTime(min,sec,mill);
 						String text = lineStr.substring(matcher.end());
+						order_lyric.add(text);
 						lyric_map.put(time,text);
 					}				
 				}
@@ -93,7 +95,7 @@ public class ReadLrc {
 	
 	public boolean isPureMusic()//是否为纯音乐
 	{
-		return haslrc;
+		return !haslrc;
 	}
 	
 	public String getSingerName()//返回演唱者姓名
@@ -119,6 +121,11 @@ public class ReadLrc {
 	public void set_playtime(int time)
 	{
 		this.played_time = time;
+	}
+	
+	public List<String> getorderLyric()
+	{
+		return this.order_lyric;
 	}
 	
 	private long getLongTime(String min, String sec, String mill)
@@ -173,5 +180,6 @@ public class ReadLrc {
 		}
 		else return new String[]{"未知歌手","无题"};
 	}
+
 	
 }
