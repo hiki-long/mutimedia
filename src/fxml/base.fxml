@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.HBox?>
 <AnchorPane fx:id="whole" fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
 		<VBox fx:id="bk" prefWidth="1280" prefHeight="720">
@@ -24,7 +25,7 @@
 		</Button>
 		<Button fx:id="music_directory" text="选择目录" prefWidth="120" prefHeight="40" onAction="#choose_direc">
 			<AnchorPane.leftAnchor>1120</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>20</AnchorPane.topAnchor>
+			<AnchorPane.topAnchor>60</AnchorPane.topAnchor>
 		</Button>
 		<Slider fx:id="progress" prefWidth="620">
 			<AnchorPane.leftAnchor>500</AnchorPane.leftAnchor>
@@ -38,6 +39,17 @@
 			<AnchorPane.leftAnchor>550</AnchorPane.leftAnchor>
 			<AnchorPane.topAnchor>180</AnchorPane.topAnchor>
 		</VBox>
+		<HBox fx:id="about_window" prefWidth="120" prefHeight="32">
+			<AnchorPane.leftAnchor>1160</AnchorPane.leftAnchor>
+			<children>
+				<Button fx:id="smalled" prefWidth="40" prefHeight="32">
+				</Button>
+				<Button fx:id="windowed" prefWidth="40" prefHeight="32">
+				</Button>
+				<Button fx:id="closed" prefWidth="40" prefHeight="32">
+				</Button>
+			</children>
+		</HBox>
 	</children>
 </AnchorPane>
 

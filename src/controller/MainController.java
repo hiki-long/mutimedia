@@ -14,11 +14,12 @@ import java.util.*;
 
 import javax.net.ssl.TrustManagerFactory;
 
-
 import application.ReadDir;
 import application.ReadLrc;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -41,6 +42,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -66,21 +68,25 @@ public class MainController {
 	@FXML
 	private ImageView cover;//音乐封面
 	@FXML
-	private Button prev;
+	private Button prev;//上一首
 	@FXML
-	private Button after;
+	private Button after;//下一首
 	@FXML
-	private Button play;
+	private Button play;//播放
 	@FXML
-	private AnchorPane whole;
+	private AnchorPane whole;//总界面
 	@FXML
-	private Slider progress;
+	private Slider progress;//播放进度条
 	@FXML
-	private Slider volume;
+	private Slider volume;//音量
 	@FXML
-	private VBox words;
+	private VBox words;//歌词栏
 	@FXML
-	private VBox bk;
+	private VBox bk;//背景图
+	@FXML
+	private HBox about_window;//右上角窗口栏
+	@FXML
+	private Button smalled,closed,windowed;
 	
 	public MainController()
 	{
@@ -96,6 +102,17 @@ public class MainController {
 //		System.out.println(select_directory);
 		choose_direc(select_directory);
 		load_image(bk, "\\bin\\img\\timg.jpg",0.7);//三个参数为加载图片的控件，图片路径，透明度(0-1.0)
+		load_image(closed, "\\bin\\img\\close.png",1.0);
+		load_image(windowed, "\\bin\\img\\window.png",1.0);
+		load_image(smalled, "\\bin\\img\\small.png",1.0);
+		closed.setOnAction(e -> {
+			Stage stage = (Stage)closed.getScene().getWindow();
+			stage.close();
+			Platform.exit();
+		});
+		smalled.setOnAction(e -> {
+			((Stage)((Button)e.getSource()).getScene().getWindow()).setIconified(true);
+		});
 	}
 	
 	
