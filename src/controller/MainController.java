@@ -55,7 +55,7 @@ public class MainController {
 	public String select_directory;//选择的文件夹目录
 	public static ReadDir rd;//读取文件夹的类的实例化对象
 	public static ReadLrc[] store_lrc;//每个音乐文件的歌词存储,这个类存着音频名和视频名以及台词
-	public MediaPlayer mp;//播放器控件
+	public MediaPlayer mp = null;//播放器控件
 	private int index = 0;//当前列表音乐播放的index,从[0-music_number-1]
 	public boolean isplay = false;//是否正在播放的布尔值
 	public boolean hasmusic = false;//是否文件夹下有音乐
@@ -344,11 +344,13 @@ public class MainController {
 					String complete_music = nowSelectedSinger +" - " + nowSelectedMusic;
 					System.out.println(complete_music);
 					System.out.println(rd.get_MusicName().indexOf(complete_music));
-					index = rd.get_MusicName().indexOf(complete_music);
+					index = rd.get_MusicName().indexOf(complete_music);	
 					mp.dispose();
 					mp = new MediaPlayer(mp3_list.get(index));
 					setCover(mp);
 					mp.play();
+					song_of_table.get(index).setCount(song_of_table.get(index).getCount()+1);
+					recent_table.refresh();
 					if(!isplay) {
 						isplay = true;
 						File pause_cion = new File("src/img/暂停00.png");
@@ -403,70 +405,75 @@ public class MainController {
 	
 	public void choose_direc()//选择文件夹后的读取文件功能，并生成播放列表
 	{
-		//释放上一次读取的资源
-		index = 0;
-		if(mp != null)
-		mp.dispose();
-		mp3_list.clear();
-		now_music_lyric.clear();
-		song_of_table.clear();
-		local_table = null;
-		recent_table = null;
-		nowSelectedMusic = null;
-		nowSelectedSinger = null;
-		showlyric = false;
-		isplay = false;
-		hasmusic = false;
-		mode = false;
-		flush = false;
-		mouse_press = false;
-		test_text = null;
-		rd.getClear();
-		for(int i = 0; i < store_lrc.length; i++)
-			store_lrc[i] = null;
-		select_directory = "";
+
 		//开始执行读取文件夹操作
+		
 		DirectoryChooser dire = new DirectoryChooser();
 		dire.setTitle("请选择音乐所在文件夹");
-		dire.setInitialDirectory(new File(System.getProperty("java.class.path")));
+//		System.out.println(System.getProperty("user.dir"));
+		dire.setInitialDirectory(new File(System.getProperty("user.dir")));
 		File newFolder = dire.showDialog(new Stage());
-		if(newFolder!=null)
-//		System.out.println(newFolder);
-		select_directory = newFolder.getPath();
-		try {
-//			System.out.println("文件读取");
-			rd = new ReadDir();
-			rd.createmusicList(select_directory, media_type);
-//			for(Iterator<String> it = rd.get_MusicName().iterator(); it.hasNext();)
-//			{
-//				System.out.println(it.next());
-//			}
-//			for(Iterator<String> it = rd.get_VedioName().iterator(); it.hasNext();)
-//			{
-//				System.out.println(it.next());
-//			}
-			store_lrc = new ReadLrc[rd.get_MusicName().size()];
-			for(int num = 0; num < rd.get_MusicName().size(); num++)
-			{	
-				String tp = select_directory + "\\" + rd.get_MusicName().get(num) + ".lrc";
-//				System.out.println(tp);
-				store_lrc[num] = new ReadLrc(tp);
+		if(newFolder!=null) {
+			//释放上一次读取的资源
+			index = 0;
+			if(mp != null)
+			{
+				mp.dispose();
+				mp3_list.clear();
+				now_music_lyric.clear();
+				song_of_table.clear();
+				rd.getClear();
+				for(int i = 0; i < store_lrc.length; i++)
+					store_lrc[i] = null;
 			}
-//			int q=0,w=0;
-//			for(int num = 0; num < rd.get_MusicName().size(); num++)
-//			{
-//				System.out.println(store_lrc[num].getMusicName());
-//				if(store_lrc[num].getMusicName().equals("无题"))
-//				{
-//					q++;
-//				}
-//				else w++;
-//			}
-//			System.out.println("有歌词"+ w +"首, 无歌词" + q +"首");
-			read_m3ulist(mode, select_directory + "\\music.m3u");
-
-		}catch (Exception e) {
-			e.printStackTrace();
+			local_table = null;
+			recent_table = null;
+			nowSelectedMusic = null;
+			nowSelectedSinger = null;
+			showlyric = false;
+			isplay = false;
+			hasmusic = false;
+			mode = false;
+			flush = false;
+			mouse_press = false;
+			test_text = null;	
+	//		System.out.println(newFolder);
+			select_directory = newFolder.getPath();
+			try {
+	//			System.out.println("文件读取");
+				rd = new ReadDir();
+				rd.createmusicList(select_directory, media_type);
+	//			for(Iterator<String> it = rd.get_MusicName().iterator(); it.hasNext();)
+	//			{
+	//				System.out.println(it.next());
+	//			}
+	//			for(Iterator<String> it = rd.get_VedioName().iterator(); it.hasNext();)
+	//			{
+	//				System.out.println(it.next());
+	//			}
+				store_lrc = new ReadLrc[rd.get_MusicName().size()];
+				for(int num = 0; num < rd.get_MusicName().size(); num++)
+				{	
+					String tp = select_directory + "\\" + rd.get_MusicName().get(num) + ".lrc";
+	//				System.out.println(tp);
+					store_lrc[num] = new ReadLrc(tp);
+				}
+	//			int q=0,w=0;
+	//			for(int num = 0; num < rd.get_MusicName().size(); num++)
+	//			{
+	//				System.out.println(store_lrc[num].getMusicName());
+	//				if(store_lrc[num].getMusicName().equals("无题"))
+	//				{
+	//					q++;
+	//				}
+	//				else w++;
+	//			}
+	//			System.out.println("有歌词"+ w +"首, 无歌词" + q +"首");
+				read_m3ulist(mode, select_directory + "\\music.m3u");
+	
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -661,6 +668,8 @@ public class MainController {
 				{
 					flush = true;
 					store_lrc[index].set_playtime(store_lrc[index].get_playtime()+1);
+					song_of_table.get(index).setCount(song_of_table.get(index).getCount()+1);
+					recent_table.refresh();
 				}
 				mp.dispose();
 				mp = new MediaPlayer(mp3_list.get(index));
