@@ -197,7 +197,7 @@ public class MainController {
 	{
 		String img = System.getProperty("user.dir") + related_path;
 		File tp = new File(img);
-		System.out.println(tp.exists());
+//		System.out.println(tp.exists());
 		try {
 		   node.setStyle(new String("-fx-background-image:url('" + tp.toURI().toURL() + "');")
 		     + "-fx-background-size:stretch stretch;" + "-fx-opacity:"+opacity+";");
@@ -239,7 +239,9 @@ public class MainController {
 							mp3_list.get(mus_num).getMarkers().put(lyr.get(t),Duration.millis(t) );
 						}
 					}
-					else System.out.println("当前为纯音乐");
+					else {
+//						System.out.println("当前为纯音乐");
+					}
 
 					
 				}
@@ -247,12 +249,12 @@ public class MainController {
 				for(int repeat = 0; repeat < estimate_time.size(); repeat++) {
 					try {									
 							String music_path = estimate_time.get(repeat);
-							System.out.println(music_path);
+//							System.out.println(music_path);
 							MP3File f = new MP3File(music_path);
 							MP3AudioHeader audioHeader = (MP3AudioHeader)f.getAudioHeader();
-							System.out.println(audioHeader.getTrackLength());
+//							System.out.println(audioHeader.getTrackLength());
 							store_lrc[repeat].setMusicTotalTime(audioHeader.getTrackLength());
-							System.out.println(store_lrc[repeat].getMusicTotalTime());
+//							System.out.println(store_lrc[repeat].getMusicTotalTime());
 							Song temp_song = new Song(store_lrc[repeat].getMusicName(),store_lrc[repeat].getSingerName(),store_lrc[repeat].getMusicTotalTime(),0);
 							song_of_table.add(temp_song);
 						}
@@ -340,10 +342,10 @@ public class MainController {
 			row.setOnMouseClicked(event -> {
 				if(event.getClickCount() == 2 && (!row.isEmpty()))
 				{//切换音乐处理
-					System.out.println(nowSelectedMusic);						
+//					System.out.println(nowSelectedMusic);						
 					String complete_music = nowSelectedSinger +" - " + nowSelectedMusic;
-					System.out.println(complete_music);
-					System.out.println(rd.get_MusicName().indexOf(complete_music));
+//					System.out.println(complete_music);
+//					System.out.println(rd.get_MusicName().indexOf(complete_music));
 					index = rd.get_MusicName().indexOf(complete_music);	
 					mp.dispose();
 					mp = new MediaPlayer(mp3_list.get(index));
@@ -383,7 +385,7 @@ public class MainController {
 			{	
 				char slash = '\\';
 				String tp = select_directory + slash + rd.get_MusicName().get(num) + ".lrc";
-				System.out.println(tp);
+//				System.out.println(tp);
 				store_lrc[num] = new ReadLrc(tp);
 			}
 //			int q=0,w=0;

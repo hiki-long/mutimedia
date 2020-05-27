@@ -85,7 +85,7 @@ public class ReadLrc {
 				return lyric_map;
 			}
 			else {
-				System.out.println("没有找到指定的lrc文件,该音乐为纯音乐");
+//				System.out.println("没有找到指定的lrc文件,该音乐为纯音乐");
 				haslrc = false;
 				return null;
 			}
@@ -105,7 +105,7 @@ public class ReadLrc {
 		int a = (int)Math.floor(time);
 		int b = a/60;
 		int c = a%60;
-		System.out.println(new String(""+ b + ":" + c));
+//		System.out.println(new String(""+ b + ":" + c));
 		total_time = new String(""+ b + ":" + c);
 	}
 	
