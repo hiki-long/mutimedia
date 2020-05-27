@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ReadDir {
 	private static List<String> fileList = new ArrayList<String>();
+	private static List<String> music_fileList = new ArrayList<String>();
 	private static String m_type[]= {"mp3","wmv","flac"};
 	private static String v_type[]= {"mp4","avi","mkv" };
 //	private String media_path = "D:\\java\\workspace\\player\\src\\res";
@@ -33,6 +34,11 @@ public class ReadDir {
 	public List<String> get_AllMedia()
 	{
 		return fileList;
+	}
+	
+	public List<String> get_AllMusicPath()
+	{
+		return music_fileList;
 	}
 	
 	public void createmusicList(String path, String[] type)
@@ -88,8 +94,10 @@ public class ReadDir {
 					{
 						//音频文件名去后缀
 						fileList.add(tempFile[i].getPath());
+						music_fileList.add(tempFile[i].getPath());
 						//这里将mp3等后缀去掉
 						String temp[] = tempFile[i].getName().split("\\.");
+//						System.out.println(temp[0]);
 						music_name.add(temp[0]);
 					}
 					if(tempFile[i].getName().endsWith(v_type[0])

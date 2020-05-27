@@ -21,6 +21,7 @@ public class ReadLrc {
 	private String[] base_info = new String[2];//仅保留名字
 	private String filename;//目前播放的歌名
 	private int played_time;//播放次数
+	private String total_time=null;//歌曲时长
 	private boolean haslrc;//是否有歌词
 //	private List<Map<Long,String>> lyric;
 	List<String> order_lyric = new ArrayList<String>();
@@ -40,7 +41,9 @@ public class ReadLrc {
 			index = lrc.lastIndexOf("/");
 		if(index != -1)
 		filename = lrc_path.substring(index+1);
-		else filename = "";
+		else {
+			filename = "";
+		}
 		lyric_map = this.parse(lrc_path);
 		base_info = this.get_info();
 		played_time = 0;
@@ -83,7 +86,6 @@ public class ReadLrc {
 			}
 			else {
 				System.out.println("没有找到指定的lrc文件,该音乐为纯音乐");
-				filename = "";
 				haslrc = false;
 				return null;
 			}
@@ -91,6 +93,20 @@ public class ReadLrc {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public String getMusicTotalTime()
+	{
+		return this.total_time;
+	}
+	
+	public void setMusicTotalTime(double time)
+	{
+		int a = (int)Math.floor(time);
+		int b = a/60;
+		int c = a%60;
+		System.out.println(new String(""+ b + ":" + c));
+		total_time = new String(""+ b + ":" + c);
 	}
 	
 	public boolean isPureMusic()//是否为纯音乐

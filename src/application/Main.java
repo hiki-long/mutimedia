@@ -26,7 +26,6 @@ public class Main extends Application {
 		try {
 			//读取fxml样式
 			FXMLLoader fx = new FXMLLoader();
-			
 			//载入fxml样式
 			fx.setLocation(fx.getClassLoader().getResource("fxml/base.fxml"));
 			
@@ -36,9 +35,9 @@ public class Main extends Application {
 			//将载入的样式显示在scene里即可。
 			AnchorPane root = (AnchorPane)fx.load();
 //			DragUtil.addDragListener(primaryStage, root);
-			Scene scene = new Scene(root,1280,720);
+			Scene scene = new Scene(root,800,600);
 			scene.setOnMousePressed(new EventHandler<MouseEvent>() {
-
+				//scene拖动处理
 				@Override
 				public void handle(MouseEvent event) {
 					xOffset = event.getScreenX()-primaryStage.getX();

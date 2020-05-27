@@ -5,51 +5,157 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Label?>
 <AnchorPane fx:id="whole" fx:controller="controller.MainController" xmlns:fx="http://javafx.com/fxml/1">
 	<children>
-		<VBox fx:id="bk" prefWidth="1280" prefHeight="720">
+		<VBox fx:id="bk" prefWidth="800" prefHeight="600">
 		</VBox>
-		<ImageView fx:id="cover" fitWidth="200" fitHeight="200" AnchorPane.leftAnchor="200" AnchorPane.topAnchor="200" preserveRatio="true">
-		</ImageView>
-		<Button fx:id="prev" text="上一首" prefWidth="60" prefHeight="40" onAction="#Before">
-			<AnchorPane.leftAnchor>180</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>620</AnchorPane.topAnchor>
-		</Button>
-		<Button fx:id="play" text="播放" prefWidth="60" prefHeight="40" onAction="#PlayMusic">
-			<AnchorPane.leftAnchor>260</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>620</AnchorPane.topAnchor>
-		</Button>
-		<Button fx:id="after" text="下一首" prefWidth="60" prefHeight="40" onAction="#Next">
-			<AnchorPane.leftAnchor>340</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>620</AnchorPane.topAnchor>
-		</Button>
-		<Button fx:id="music_directory" text="选择目录" prefWidth="120" prefHeight="40" onAction="#choose_direc">
-			<AnchorPane.leftAnchor>1120</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>60</AnchorPane.topAnchor>
-		</Button>
-		<Slider fx:id="progress" prefWidth="620">
-			<AnchorPane.leftAnchor>500</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>630</AnchorPane.topAnchor>
-		</Slider>
-		<Slider fx:id="volume" min="0.0" max="1.0" value="0.4" prefWidth="100">
-			<AnchorPane.leftAnchor>1150</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>630</AnchorPane.topAnchor>
-		</Slider>
-		<VBox fx:id="words" prefWidth="660" prefHeight="320" style="-fx-background-color:rgba(0,0,0,0.2);">
-			<AnchorPane.leftAnchor>550</AnchorPane.leftAnchor>
-			<AnchorPane.topAnchor>180</AnchorPane.topAnchor>
-		</VBox>
-		<HBox fx:id="about_window" prefWidth="120" prefHeight="32">
-			<AnchorPane.leftAnchor>1160</AnchorPane.leftAnchor>
+		<HBox fx:id="top" prefWidth="800" prefHeight="32" style="-fx-background-color:rgba(0,128,0,0.8);">
 			<children>
-				<Button fx:id="smalled" prefWidth="40" prefHeight="32">
-				</Button>
-				<Button fx:id="windowed" prefWidth="40" prefHeight="32">
-				</Button>
-				<Button fx:id="closed" prefWidth="40" prefHeight="32">
-				</Button>
+				<Label fx:id="title" prefWidth="100" prefHeight="32" text="播放器" style="-fx-text-fill:rgb(255,255,255) ">
+				</Label>
+				<HBox prefWidth="540" prefHeight="32"></HBox>
+				<HBox fx:id="about_window" prefWidth="160" prefHeight="32">
+					<children>
+						<ImageView fx:id="music_directory" fitWidth="40" fitHeight="32">
+							<image>
+								<Image url='@../img/文档.png' />
+							</image>
+						</ImageView>
+						<ImageView fx:id="smalled" fitWidth="40" fitHeight="32">
+							<image>
+								<Image url='@../img/缩小.png' />
+							</image>
+						</ImageView>
+						<ImageView fx:id="windowed" fitWidth="40" fitHeight="32">
+							<image>
+								<Image url='@../img/正方形.png' />
+							</image>
+						</ImageView>
+						<ImageView fx:id="closed" fitWidth="40" fitHeight="32">
+							<image>
+								<Image url='@../img/关闭.png' />
+							</image>
+						</ImageView>
+						<!--  <Button fx:id="music_directory" text="目录" prefWidth="40" prefHeight="32" onAction="#choose_direc">
+						</Button>
+						<Button fx:id="smalled" prefWidth="40" prefHeight="32">
+						</Button>
+						<Button fx:id="windowed" prefWidth="40" prefHeight="32">
+						</Button>
+						<Button fx:id="closed" prefWidth="40" prefHeight="32">
+						</Button>-->
+						
+					</children>
+				</HBox>
 			</children>
 		</HBox>
+		<HBox fx:id="bottom" prefWidth="800" prefHeight="80" AnchorPane.topAnchor="520" style="-fx-background-color:rgba(225,255,255,1.0);-fx-border-style:solid inside;-fx-border-width:1;-fx-border-color:green;">
+			<children>
+				<HBox prefWidth="180" prefHeight="80" style="-fx-background-color:rgba(0,0,0,0.0);">
+					<children>
+						<HBox prefWidth="60" prefHeight="80" style="-fx-padding:20px 10px;">
+							<children>
+								<ImageView fx:id="prev" fitWidth="40" fitHeight="40">
+									<image>
+										<Image  url='@../img/上一首00.png'/>
+									</image>
+								</ImageView>
+							</children>
+						</HBox>
+						<HBox prefWidth="60" prefHeight="80" style="-fx-padding:10px;">
+							<children>
+								<ImageView fx:id="play" fitWidth="60" fitHeight="60">
+									<image>
+										<Image  url='@../img/播放00.png'/>
+									</image>
+								</ImageView>
+							</children>
+						</HBox>
+						<HBox prefWidth="60" prefHeight="80" style="-fx-padding:20px 10px;">
+							<children>
+								<ImageView fx:id="after" fitWidth="40" fitHeight="40">
+									<image>
+										<Image url='@../img/下一首00.png'/>
+									</image>
+								</ImageView>
+							</children>
+						</HBox>						
+					</children>
+				</HBox>
+				<HBox prefWidth="590" prefHeight="80" style="-fx-background-color:rgba(0,0,0,0.0);-fx-spacing:20px;">
+					<children>
+						<HBox prefWidth="400" prefHeight="80" style="-fx-padding:33px 0px 0px 10px;">
+							<children>
+								<Slider fx:id="progress" prefWidth="400">
+								</Slider>
+							</children>
+						</HBox>
+						
+						<HBox prefWidth="30" prefHeight="80" style="-fx-background-color:rgba(0,0,0,0.0); -fx-padding:30px 5px 30px 5px;">
+							<children>
+								<ImageView fitWidth="20" fitHeight="20" preserveRatio="true">
+								<image >
+									<Image url="@../img/volume.jpg"/>
+								</image>
+							</ImageView>
+							</children>
+						</HBox>
+						<HBox prefWidth="100" prefHeight="80" style="-fx-padding:33px 0px 0px 0px;">
+							<children>
+								<Slider fx:id="volume" min="0.0" max="1.0" value="0.4" prefWidth="100">
+								</Slider>
+							</children>
+						</HBox>
+	
+					</children>
+				</HBox>
+							
+			</children>
+		</HBox>
+		<VBox fx:id="left" prefWidth="200" prefHeight="488" AnchorPane.topAnchor="32" style="-fx-background-color:rgba(225,255,255,1.0);-fx-border-style:solid inside;-fx-border-width:1;-fx-border-color:green;">
+			<HBox prefWidth="200" prefHeight="100" ></HBox>
+			<HBox prefWidth="200" prefHeight="100">
+				<children>
+				 	<Label prefWidth="200" prefHeight="100" fx:id="mymusic" text="我的音乐" style="-fx-text-fill:rgb(160,218,193); -fx-font-size:40;">
+					</Label>
+				</children>		
+			</HBox>
+			<HBox fx:id="local_func" prefWidth="200" prefHeight="100">
+				<children>
+					<ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+						<image>
+							<Image url="@../img/音符00.png"/>
+						</image>
+					</ImageView>
+					<Label prefWidth="120" prefHeight="80" fx:id="localmusic" text="本地音乐" style="-fx-text-fill:rgb(160,218,193); -fx-font-size:30;">
+					</Label>
+				</children>
+			</HBox >
+			<HBox fx:id="recent_func" prefWidth="200" prefHeight="100">
+				<children>
+					<ImageView fitWidth="80" fitHeight="80" preserveRatio="true">
+						<image>
+							<Image url="@../img/时钟00.png"/>
+						</image>
+					</ImageView>
+					<Label prefWidth="120" prefHeight="80"  fx:id="recentmusic" text="最近播放" style="-fx-text-fill:rgb(160,218,193); -fx-font-size:30;">
+					</Label>
+				</children>
+			</HBox>
+			<HBox prefWidth="200"  prefHeight="88" style="-fx-padding:4px 60px 4px 60px">
+				<children>
+					<ImageView fx:id="cover" fitWidth="80" fitHeight="80" preserveRatio="true">
+					</ImageView>
+				</children>
+			</HBox>
+		</VBox>
+		<VBox fx:id="right" prefWidth="600" prefHeight="488" AnchorPane.topAnchor="32" AnchorPane.leftAnchor="200" style="-fx-background-color:rgba(225,255,255,1.0);-fx-border-style:solid inside;-fx-border-width:1;-fx-border-color:green;">
+		</VBox>
+		<VBox fx:id="words" prefWidth="540" prefHeight="300" style="-fx-background-color:rgba(0,0,0,0.2);">
+			<AnchorPane.leftAnchor>230</AnchorPane.leftAnchor>
+			<AnchorPane.topAnchor>110</AnchorPane.topAnchor>
+		</VBox>
 	</children>
 </AnchorPane>
 
