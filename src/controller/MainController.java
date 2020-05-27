@@ -271,12 +271,20 @@ public class MainController {
 					right.getChildren().add(local_table);
 					right.setVisible(true);
 					words.setVisible(false);
+					local_func.setStyle("-fx-opacity:0.8");
+				});
+				local_func.setOnMouseExited(e -> {
+					local_func.setStyle("-fx-opacity:1.0");
 				});
 				recent_func.setOnMouseClicked(e -> {
 					right.getChildren().clear();
 					right.getChildren().add(recent_table);
 					right.setVisible(true);
 					words.setVisible(false);
+					recent_func.setStyle("-fx-opacity:0.8");
+				});
+				recent_func.setOnMouseExited(e -> {
+					recent_func.setStyle("-fx-opacity:1.0");
 				});
 				//¿ªÊ¼²¥·Å
 				mp = new MediaPlayer(mp3_list.get(index));
