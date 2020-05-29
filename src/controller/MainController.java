@@ -45,6 +45,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import Viplayer.mediapane;
 
 public class MainController {
 
@@ -91,7 +92,7 @@ public class MainController {
 	@FXML
 	private HBox about_window;//右上角窗口栏
 	@FXML
-	private ImageView smalled,closed,windowed;
+	private ImageView smalled,closed,windowed,switch_func;
 	@FXML
 	private HBox top,bottom;
 	@FXML
@@ -121,6 +122,7 @@ public class MainController {
 		playmusic_handle(prev, 0);
 		playmusic_handle(play, 1);
 		playmusic_handle(after,2);
+		window_related_handle(switch_func, "切换", 1);
 		window_related_handle(music_directory, "文档", 2);
 		window_related_handle(smalled,"缩小",3);
 		window_related_handle(windowed,"正方形",4);
@@ -147,7 +149,11 @@ public class MainController {
 		img.setOnMouseReleased(e->{
 			if(mode==1)
 			{//这里为音视频转化功能做准备
-				
+				mediapane medi = new mediapane();
+				medi.start(new Stage());
+				Stage stage = (Stage)closed.getScene().getWindow();
+				stage.close();
+				reload_handle();
 			}
 			else if(mode==2)
 			{
@@ -413,6 +419,32 @@ public class MainController {
 		}
 	}
 	
+	public void  reload_handle()
+	{
+		index = 0;
+		if(mp != null)
+		{
+			mp.dispose();
+			mp3_list.clear();
+			now_music_lyric.clear();
+			song_of_table.clear();
+			rd.getClear();
+			for(int i = 0; i < store_lrc.length; i++)
+				store_lrc[i] = null;
+		}
+		local_table = null;
+		recent_table = null;
+		nowSelectedMusic = null;
+		nowSelectedSinger = null;
+		showlyric = false;
+		isplay = false;
+		hasmusic = false;
+		mode = false;
+		flush = false;
+		mouse_press = false;
+		test_text = null;	
+	}
+	
 	public void choose_direc()//选择文件夹后的读取文件功能，并生成播放列表
 	{
 
@@ -424,29 +456,30 @@ public class MainController {
 		dire.setInitialDirectory(new File(System.getProperty("user.dir")));
 		File newFolder = dire.showDialog(new Stage());
 		if(newFolder!=null) {
-			//释放上一次读取的资源
-			index = 0;
-			if(mp != null)
-			{
-				mp.dispose();
-				mp3_list.clear();
-				now_music_lyric.clear();
-				song_of_table.clear();
-				rd.getClear();
-				for(int i = 0; i < store_lrc.length; i++)
-					store_lrc[i] = null;
-			}
-			local_table = null;
-			recent_table = null;
-			nowSelectedMusic = null;
-			nowSelectedSinger = null;
-			showlyric = false;
-			isplay = false;
-			hasmusic = false;
-			mode = false;
-			flush = false;
-			mouse_press = false;
-			test_text = null;	
+			reload_handle();
+//			//释放上一次读取的资源
+//			index = 0;
+//			if(mp != null)
+//			{
+//				mp.dispose();
+//				mp3_list.clear();
+//				now_music_lyric.clear();
+//				song_of_table.clear();
+//				rd.getClear();
+//				for(int i = 0; i < store_lrc.length; i++)
+//					store_lrc[i] = null;
+//			}
+//			local_table = null;
+//			recent_table = null;
+//			nowSelectedMusic = null;
+//			nowSelectedSinger = null;
+//			showlyric = false;
+//			isplay = false;
+//			hasmusic = false;
+//			mode = false;
+//			flush = false;
+//			mouse_press = false;
+//			test_text = null;	
 	//		System.out.println(newFolder);
 			select_directory = newFolder.getPath();
 			try {

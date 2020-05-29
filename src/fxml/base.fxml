@@ -14,9 +14,14 @@
 			<children>
 				<Label fx:id="title" prefWidth="100" prefHeight="32" text="播放器" style="-fx-text-fill:rgb(255,255,255) ">
 				</Label>
-				<HBox prefWidth="540" prefHeight="32"></HBox>
+				<HBox prefWidth="500" prefHeight="32"></HBox>
 				<HBox fx:id="about_window" prefWidth="160" prefHeight="32">
 					<children>
+						<ImageView fx:id="switch_func" fitWidth="40" fitHeight="32" style="-fx-background-color:rgb(255,255,255);">
+							<image>
+								<Image url='@../img/切换.png' />
+							</image>
+						</ImageView>
 						<ImageView fx:id="music_directory" fitWidth="40" fitHeight="32">
 							<image>
 								<Image url='@../img/文档.png' />
@@ -37,14 +42,7 @@
 								<Image url='@../img/关闭.png' />
 							</image>
 						</ImageView>
-						<!--  <Button fx:id="music_directory" text="目录" prefWidth="40" prefHeight="32" onAction="#choose_direc">
-						</Button>
-						<Button fx:id="smalled" prefWidth="40" prefHeight="32">
-						</Button>
-						<Button fx:id="windowed" prefWidth="40" prefHeight="32">
-						</Button>
-						<Button fx:id="closed" prefWidth="40" prefHeight="32">
-						</Button>-->
+
 						
 					</children>
 				</HBox>
